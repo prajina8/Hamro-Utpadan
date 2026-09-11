@@ -1,66 +1,175 @@
-import { useMemo, useState } from 'react'
-import products from '../data/products'
+import { useEffect, useMemo, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+
 import ProductCard from '../components/ProductCard'
+import LoadingCard from '../components/LoadingCard'
+
+import localProducts from '../data/localProducts'
+import { fetchApiProducts } from '../services/productApi'
 
 const CATEGORIES = ['All', 'Fruit', 'Vegetable']
 
 export default function Shop() {
-  const [category, setCategory] = useState('All')
+  const [searchParams] = useSearchParams()
+
+  const initialCategory =
+    searchParams.get('category') || 'All'
+
+  const [category, setCategory] =
+    useState(initialCategory)
+
   const [query, setQuery] = useState('')
 
+  const [apiProducts, setApiProducts] =
+    useState([])
+
+  const [loading, setLoading] =
+    useState(true)
+
+  const [error, setError] =
+    useState('')
+
+  useEffect(() => {
+    async function loadProducts() {
+      try {
+        const data = await fetchApiProducts()
+        setApiProducts(data)
+      } catch (err) {
+        console.error(err)
+        setError('Unable to load product images.')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadProducts()
+  }, [])
+
+  const products = useMemo(() => {
+    return localProducts.map((local, index) => ({
+      ...local,
+      image:
+        apiProducts[index]?.images?.[0] ||
+        apiProducts[index]?.thumbnail ||
+        '',
+    }))
+  }, [apiProducts])
+
   const filtered = useMemo(() => {
-    return products.filter((p) => {
-      const matchesCategory = category === 'All' || p.category === category
-      const matchesQuery =
-        query.trim() === '' ||
-        p.name.toLowerCase().includes(query.toLowerCase()) ||
-        p.location.toLowerCase().includes(query.toLowerCase()) ||
-        p.grower.toLowerCase().includes(query.toLowerCase())
-      return matchesCategory && matchesQuery
+    return products.filter((product) => {
+
+      const matchesCategory =
+        category === 'All' ||
+        product.category === category
+
+      const search =
+        query.trim().toLowerCase()
+
+      const matchesSearch =
+        search === '' ||
+        product.name.toLowerCase().includes(search) ||
+        product.location.toLowerCase().includes(search) ||
+        product.grower.toLowerCase().includes(search)
+
+      return matchesCategory && matchesSearch
     })
-  }, [category, query])
+  }, [products, category, query])
 
   return (
-    <section className="section wrap">
-      <div className="section-head">
-        <div>
-          <span className="eyebrow">Marketplace</span>
-          <h2 className="display">Fruits &amp; vegetables</h2>
-        </div>
+    <section className="section wrap shop-page">
+
+      <div className="shop-hero">
+
+        <span className="eyebrow">
+          LOCAL MARKETPLACE
+        </span>
+
+        <h1 className="display">
+          Fresh produce,
+          <br />
+          straight from growers.
+        </h1>
+
+        <p>
+          Browse locally grown fruits and vegetables
+          from farmers across Nepal.
+        </p>
+
+      </div>
+
+      <div className="shop-controls">
+
         <div className="tabs">
-          {CATEGORIES.map((c) => (
+
+          {CATEGORIES.map((item) => (
             <button
-              key={c}
-              className={`tab ${category === c ? 'active' : ''}`}
-              onClick={() => setCategory(c)}
+              key={item}
               type="button"
+              className={
+                category === item
+                  ? 'tab active'
+                  : 'tab'
+              }
+              onClick={() => setCategory(item)}
             >
-              {c === 'All' ? 'All produce' : `${c}s`}
+              {item === 'All'
+                ? 'All produce'
+                : item + 's'}
             </button>
           ))}
-        </div>
-      </div>
 
-      <div className="search-row">
+        </div>
+        
         <input
-          className="search-input"
-          type="text"
-          placeholder="Search by crop, grower, or village..."
+          className="modern-search"
+          type="search"
+          placeholder="Search products, growers or locations..."
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          aria-label="Search listings"
+          onChange={(e) =>
+            setQuery(e.target.value)
+          }
         />
+
       </div>
 
-      {filtered.length > 0 ? (
-        <div className="grid">
-          {filtered.map((p) => (
-            <ProductCard key={p.id} product={p} />
-          ))}
+      {error && (
+        <div className="api-warning">
+          {error} The marketplace will still work with
+          the local product information.
         </div>
-      ) : (
-        <div className="empty-note">No listings match that search yet.</div>
       )}
+
+      {loading ? (
+
+        <div className="product-grid">
+
+          {Array.from({ length: 8 }).map((_, index) => (
+            <LoadingCard key={index} />
+          ))}
+
+        </div>
+
+      ) : filtered.length > 0 ? (
+
+        <div className="product-grid">
+
+          {filtered.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+            />
+          ))}
+
+        </div>
+
+      ) : (
+
+        <div className="empty-note">
+          No products found.
+        </div>
+
+      )}
+
     </section>
   )
 }

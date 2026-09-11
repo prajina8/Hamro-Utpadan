@@ -1,37 +1,60 @@
 export default function Footer() {
   return (
-    <footer className="footer">
+    <footer className="modern-footer">
+
       <div className="footer-inner">
-        <div>
-          <h4>Local Products</h4>
+
+        <div className="footer-brand">
+
+          <div className="footer-logo">
+           LocalHarvest
+          </div>
+
           <p>
-            A direct line between the people who grow food and the people who
-            buy it in bulk. No middleman markup, no vanishing profit &mdash;
-            growers list what they've harvested, wholesalers order it straight
-            from the source.
+            Connecting Nepalese growers directly with
+            buyers, wholesalers and retailers.
           </p>
+
+          <div className="footer-location">
+            🇳🇵 Made for local agriculture in Nepal
+          </div>
+
         </div>
+
         <div>
           <h4>Marketplace</h4>
+
           <ul>
-            <li>Browse fruits</li>
-            <li>Browse vegetables</li>
+            <li>Fresh fruits</li>
+            <li>Fresh vegetables</li>
+            <li>Featured produce</li>
             <li>How it works</li>
-            <li>Cart &amp; checkout</li>
           </ul>
         </div>
+
         <div>
           <h4>Coming soon</h4>
+
           <ul>
-            <li>Grower registration &amp; login</li>
-            <li>Admin verification panel</li>
-            <li>Order &amp; payment backend</li>
+            <li>Grower registration</li>
+            <li>Grower dashboard</li>
+            <li>Online payments</li>
+            <li>Order tracking</li>
           </ul>
         </div>
+
       </div>
+
       <div className="footer-bottom">
-        LOCAL PRODUCTS &mdash; FRONTEND PREVIEW &middot; NO LOGIN REQUIRED TO BROWSE
+        <span>
+          © 2026 LocalHarvest
+        </span>
+
+        <span>
+          FARM → MARKET → PEOPLE
+        </span>
       </div>
+
     </footer>
   )
 }
