@@ -1,27 +1,45 @@
-import { Routes, Route } from 'react-router-dom'
-import Navbar from './components/Navbar'
-import Footer from './components/Footer'
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useAuth } from "./context/AuthContext.jsx";
+import Navbar from "./components/Navbar.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import Login from "./pages/Login.jsx";
+import FarmerDashboard from "./pages/FarmerDashboard.jsx";
+import SupplierDashboard from "./pages/SupplierDashboard.jsx";
+import NotFound from "./pages/NotFound.jsx";
 
-import Home from './pages/Home'
-import Shop from './pages/Shop'
-import Cart from './pages/Cart'
-import Checkout from './pages/Checkout'
+const Home = () => {
+  const { user } = useAuth();
+  if (!user) return <Navigate to="/login" replace />;
+  return <Navigate to={user.role === "farmer" ? "/farmer" : "/supplier"} replace />;
+};
 
-
-export default function App() {
+function App() {
   return (
-    <>
+    <div className="app-shell">
       <Navbar />
-     
-      <main>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/shop" element={<Shop />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<Checkout />} />
-        </Routes>
-      </main>
-      <Footer />
-    </>
-  )
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/farmer"
+          element={
+            <ProtectedRoute role="farmer">
+              <FarmerDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/supplier"
+          element={
+            <ProtectedRoute role="supplier">
+              <SupplierDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </div>
+  );
 }
+
+export default App;
