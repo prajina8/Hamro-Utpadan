@@ -7,10 +7,21 @@ import FarmerDashboard from "./pages/FarmerDashboard.jsx";
 import SupplierDashboard from "./pages/SupplierDashboard.jsx";
 import NotFound from "./pages/NotFound.jsx";
 
+
+
+
 const Home = () => {
   const { user } = useAuth();
   if (!user) return <Navigate to="/login" replace />;
-  return <Navigate to={user.role === "farmer" ? "/farmer" : "/supplier"} replace />;
+ if (user.role === "admin") {
+  return <Navigate to="/admin" replace />;
+}
+
+if (user.role === "farmer") {
+  return <Navigate to="/farmer" replace />;
+}
+
+return <Navigate to="/supplier" replace />;
 };
 
 function App() {

@@ -5,7 +5,12 @@ import { useAuth } from "../context/AuthContext.jsx";
 const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ username: "", password: "" });
+
+  const [form, setForm] = useState({
+    username: "",
+    password: "",
+  });
+
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -13,11 +18,29 @@ const Login = () => {
     e.preventDefault();
     setError("");
     setLoading(true);
+
     try {
-      const user = await login(form.username.trim(), form.password);
-      navigate(user.role === "farmer" ? "/farmer" : "/supplier");
+      const user = await login(
+        form.username.trim(),
+        form.password
+      );
+
+      // Redirect according to user role
+      if (user.role === "admin") {
+        navigate("/admin");
+      } else if (user.role === "farmer") {
+        navigate("/farmer");
+      } else if (user.role === "supplier") {
+        navigate("/supplier");
+      } else {
+        setError("Invalid user role");
+      }
     } catch (err) {
-      setError(err.response?.data?.message || err.message || "Login failed");
+      setError(
+        err.response?.data?.message ||
+        err.message ||
+        "Login failed"
+      );
     } finally {
       setLoading(false);
     }
@@ -27,34 +50,58 @@ const Login = () => {
     <div className="login-screen">
       <div className="login-card">
         <span className="brand-mark">हाम्रो उत्पादन</span>
-        <p className="login-tagline">
-          Farmer and supplier sign in. Accounts are issued by your admin -
-          there is no self sign-up.
+
+        <p className="text-sm text-gray-500">
+          Sign in as an Admin, Farmer, or Supplier.
         </p>
-        {error && <div className="error-banner">{error}</div>}
+
+        {error && (
+          <div className="error-banner">
+            {error}
+          </div>
+        )}
+
         <form onSubmit={handleSubmit}>
           <div className="field">
             <label htmlFor="username">Username</label>
+
             <input
               id="username"
               value={form.username}
-              onChange={(e) => setForm({ ...form, username: e.target.value })}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  username: e.target.value,
+                })
+              }
               autoComplete="username"
               required
             />
           </div>
+
           <div className="field">
             <label htmlFor="password">Password</label>
+
             <input
               id="password"
               type="password"
               value={form.password}
-              onChange={(e) => setForm({ ...form, password: e.target.value })}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  password: e.target.value,
+                })
+              }
               autoComplete="current-password"
               required
             />
           </div>
-          <button className="btn btn-primary" style={{ width: "100%" }} disabled={loading}>
+
+          <button
+            className="btn btn-primary"
+            style={{ width: "100%" }}
+            disabled={loading}
+          >
             {loading ? "Signing in..." : "Sign in"}
           </button>
         </form>

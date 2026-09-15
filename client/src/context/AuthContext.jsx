@@ -19,9 +19,9 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (username, password) => {
     const { data } = await api.post("/auth/login", { username, password });
-    if (!["farmer", "supplier"].includes(data.user.role)) {
-      throw new Error("This portal is for farmers and suppliers only");
-    }
+    if (!["admin", "farmer", "supplier"].includes(data.user.role)) {
+  throw new Error("Invalid user role");
+}
     localStorage.setItem("hu_token", data.token);
     localStorage.setItem("hu_user", JSON.stringify(data.user));
     connectSocket(data.token);
