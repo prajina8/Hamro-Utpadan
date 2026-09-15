@@ -6,11 +6,11 @@ import http from "http";
 import { Server } from "socket.io";
 import jwt from "jsonwebtoken";
 
-import connectDB from "./config/db.js";
-import authRoutes from "./routes/authRoutes.js";
-import adminRoutes from "./routes/adminRoutes.js";
-import productRoutes from "./routes/productRoutes.js";
-import notificationRoutes from "./routes/notificationRoutes.js";
+import connectDB from "./src/config/db.js";
+import authRoutes from "./src/routes/authRoutes.js";
+import adminRoutes from "./src/routes/adminRoutes.js";
+import productRoutes from "./src/routes/productRoutes.js";
+import notificationRoutes from "./src/routes/notificationRoutes.js";
 
 dotenv.config();
 connectDB();
@@ -40,9 +40,6 @@ app.use((err, req, res, next) => {
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: allowedOrigins, credentials: true } });
 
-// Every socket authenticates with the same JWT used for the REST API, then
-// joins a room for its user id and one for its role - that's how
-// pushNotification() can target either an individual or a whole role.
 io.use((socket, next) => {
   try {
     const token = socket.handshake.auth?.token;
