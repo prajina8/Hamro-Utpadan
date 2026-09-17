@@ -94,7 +94,6 @@ export const updateProduct = async (req, res) => {
   }
 };
 
-// DELETE /api/products/:id  (farmer only, must own the product)
 export const deleteProduct = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -106,25 +105,5 @@ export const deleteProduct = async (req, res) => {
     res.json({ message: "Product removed" });
   } catch (error) {
     res.status(500).json({ message: "Could not remove product", error: error.message });
-  }
-};
-
-export const requestRestock = async (req, res) => {
-  try {
-    const product = await Product.findById(req.params.id);
-    if (!product) return res.status(404).json({ message: "Product not found" });
-
-    const io = req.app.get("io");
-    await pushNotification(io, {
-      recipient: product.farmer,
-      sender: req.user._id,
-      type: "restock_request",
-      product: product._id,
-      message: `${req.user.name} needs more ${product.name} - current stock: ${product.quantity} ${product.unit}`,
-    });
-
-    res.json({ message: "Restock request sent to the farmer" });
-  } catch (error) {
-    res.status(500).json({ message: "Could not send restock request", error: error.message });
   }
 };

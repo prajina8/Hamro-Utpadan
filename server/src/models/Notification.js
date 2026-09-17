@@ -10,7 +10,16 @@ const notificationSchema = new mongoose.Schema(
     sender: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     type: {
       type: String,
-      enum: ["new_product", "stock_update", "out_of_stock", "restock_request"],
+      enum: [
+        "new_product",
+        "stock_update",
+        "out_of_stock",
+        "restock_request",
+        "order_requested",
+        "order_confirmed",
+        "order_dispatched",
+        "order_delivered",
+      ],
       required: true,
     },
     product: { type: mongoose.Schema.Types.ObjectId, ref: "Product", default: null },
