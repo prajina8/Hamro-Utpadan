@@ -46,7 +46,7 @@ const ManageUsers = () => {
   };
 
   return (
-    <div className="page">
+    <div className="page dashboard-bg">
       <div className="page-header">
         <div>
           <h1>Users</h1>

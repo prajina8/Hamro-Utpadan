@@ -1,0 +1,58 @@
+<svg viewBox="0 0 600 640" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="skyFade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#EAF7E2"/>
+      <stop offset="100%" stop-color="#CDEBBE"/>
+    </linearGradient>
+  </defs>
+
+  <circle cx="300" cy="300" r="280" fill="url(#skyFade)"/>
+
+  <!-- ground shadow -->
+  <ellipse cx="300" cy="520" rx="210" ry="26" fill="#2C5024" opacity="0.10"/>
+
+  <!-- basket -->
+  <path d="M140 470 L460 470 L425 380 L175 380 Z" fill="#B9803F"/>
+  <path d="M140 470 L460 470 L450 500 L150 500 Z" fill="#A16B2E"/>
+  <path d="M175 380 Q300 410 425 380" fill="none" stroke="#8A5A24" stroke-width="6"/>
+  <path d="M190 405 Q300 432 410 405" fill="none" stroke="#8A5A24" stroke-width="6"/>
+  <path d="M205 430 Q300 454 395 430" fill="none" stroke="#8A5A24" stroke-width="6"/>
+  <path d="M165 355 Q300 320 435 355 L425 380 Q300 350 175 380 Z" fill="#C99150"/>
+
+  <!-- leafy greens bunch, back left -->
+  <g>
+    <ellipse cx="205" cy="300" rx="28" ry="60" fill="#3F7A33" transform="rotate(-18 205 300)"/>
+    <ellipse cx="230" cy="285" rx="26" ry="58" fill="#4C8C3D" transform="rotate(-4 230 285)"/>
+    <ellipse cx="255" cy="300" rx="24" ry="55" fill="#5FA84C" transform="rotate(10 255 300)"/>
+  </g>
+
+  <!-- carrot, front right -->
+  <g transform="translate(360,330) rotate(18)">
+    <path d="M0 0 L34 0 L17 92 Z" fill="#E07A2C"/>
+    <path d="M4 0 L30 0 L17 78 Z" fill="#EE8F3F" opacity="0.6"/>
+    <path d="M8 -6 Q17 -34 4 -50" stroke="#3F7A33" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <path d="M17 -6 Q22 -38 17 -56" stroke="#4C8C3D" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <path d="M26 -6 Q22 -32 34 -46" stroke="#3F7A33" stroke-width="7" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- tomato, front center -->
+  <g transform="translate(300,345)">
+    <circle r="36" fill="#D8472B"/>
+    <circle cx="-10" cy="-12" r="10" fill="#EA6B4D" opacity="0.55"/>
+    <path d="M-14 -32 Q0 -46 14 -32 Q4 -38 0 -30 Q-4 -38 -14 -32Z" fill="#4C8C3D"/>
+  </g>
+
+  <!-- broccoli, front left -->
+  <g transform="translate(215,350)">
+    <rect x="-6" y="10" width="12" height="26" rx="4" fill="#8FBF6A"/>
+    <circle cx="-14" cy="-2" r="16" fill="#3F7A33"/>
+    <circle cx="10" cy="-6" r="18" fill="#4C8C3D"/>
+    <circle cx="-2" cy="-20" r="15" fill="#5FA84C"/>
+  </g>
+
+  <!-- bell pepper, front right of tomato -->
+  <g transform="translate(345,350)">
+    <path d="M0 -8 C-22 -8 -26 20 -14 34 C-6 44 14 44 22 34 C34 20 22 -8 0 -8 Z" fill="#DCE04A" opacity="0.9"/>
+    <path d="M-4 -8 Q0 -22 8 -24" stroke="#4C8C3D" stroke-width="6" fill="none" stroke-linecap="round"/>
+  </g>
+</svg>
