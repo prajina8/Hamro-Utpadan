@@ -1,9 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-// Reusable camera widget: opens the device camera live where possible and
-// snapshots a frame to a base64 JPEG. Falls back to the native file picker
-// (which itself opens the camera on phones) when getUserMedia isn't
-// available or permission is denied.
+
 const CameraCapture = ({ label, value, onCapture }) => {
   const videoRef = useRef(null);
   const streamRef = useRef(null);
@@ -27,7 +24,7 @@ const CameraCapture = ({ label, value, onCapture }) => {
       });
       streamRef.current = stream;
       setLive(true);
-      // wait a tick for the <video> to mount
+     
       setTimeout(() => {
         if (videoRef.current) {
           videoRef.current.srcObject = stream;

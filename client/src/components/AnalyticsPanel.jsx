@@ -6,8 +6,7 @@ const money = (n) => `Rs. ${Number(n || 0).toLocaleString("en-IN", { maximumFrac
 const fmtDate = (d) =>
   d ? new Date(d).toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short" }) : "-";
 
-// role: "farmer" (producer, revenue = what they earned) or "supplier" (seller,
-// revenue = what they spent buying produce). Same shape of data either way.
+
 const AnalyticsPanel = ({ role }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);

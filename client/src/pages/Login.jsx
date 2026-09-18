@@ -25,7 +25,7 @@ const Login = () => {
         form.password
       );
 
-      // Redirect according to user role
+    
       if (user.role === "admin") {
         navigate("/admin");
       } else if (user.role === "farmer") {
@@ -47,64 +47,70 @@ const Login = () => {
   };
 
   return (
-    <div className="login-screen">
-      <div className="login-card">
-        <span className="brand-mark">हाम्रो उत्पादन</span>
+    <div className="login-screen login-split">
+      <div className="login-form-side">
+        <div className="login-card">
+          <span className="brand-mark">हाम्रो उत्पादन</span>
 
-        <p className="text-sm text-gray-500">
-          Sign in as an Admin, Farmer, or Supplier.
-        </p>
+          <p className="login-tagline">
+            Sign in as a Farmer or Supplier.
+          </p>
 
-        {error && (
-          <div className="error-banner">
-            {error}
-          </div>
-        )}
+          {error && (
+            <div className="error-banner">
+              {error}
+            </div>
+          )}
 
-        <form onSubmit={handleSubmit}>
-          <div className="field">
-            <label htmlFor="username">Username</label>
+          <form onSubmit={handleSubmit}>
+            <div className="field">
+              <label htmlFor="username">Username</label>
 
-            <input
-              id="username"
-              value={form.username}
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  username: e.target.value,
-                })
-              }
-              autoComplete="username"
-              required
-            />
-          </div>
+              <input
+                id="username"
+                value={form.username}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    username: e.target.value,
+                  })
+                }
+                autoComplete="username"
+                required
+              />
+            </div>
 
-          <div className="field">
-            <label htmlFor="password">Password</label>
+            <div className="field">
+              <label htmlFor="password">Password</label>
 
-            <input
-              id="password"
-              type="password"
-              value={form.password}
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  password: e.target.value,
-                })
-              }
-              autoComplete="current-password"
-              required
-            />
-          </div>
+              <input
+                id="password"
+                type="password"
+                value={form.password}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    password: e.target.value,
+                  })
+                }
+                autoComplete="current-password"
+                required
+              />
+            </div>
 
-          <button
-            className="btn btn-primary"
-            style={{ width: "100%" }}
-            disabled={loading}
-          >
-            {loading ? "Signing in..." : "Sign in"}
-          </button>
-        </form>
+            <button
+              className="btn btn-primary"
+              style={{ width: "100%" }}
+              disabled={loading}
+            >
+              {loading ? "Signing in..." : "Sign in"}
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div className="login-image-side" aria-hidden="true">
+        <img src="/veggie-bg.svg" alt="" />
       </div>
     </div>
   );
