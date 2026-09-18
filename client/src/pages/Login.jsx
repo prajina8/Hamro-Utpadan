@@ -1,4 +1,5 @@
-import { useState } from "react";
+
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 
@@ -14,6 +15,25 @@ const Login = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  
+  const images = [
+    "/farmer.png",
+    "/harvest.png",
+    "/thumb.png",
+    "/tomato.avif",
+  ];
+
+  const [currentImage, setCurrentImage] = useState(0);
+
+ //image change hune 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % images.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -25,7 +45,6 @@ const Login = () => {
         form.password
       );
 
-    
       if (user.role === "admin") {
         navigate("/admin");
       } else if (user.role === "farmer") {
@@ -38,8 +57,8 @@ const Login = () => {
     } catch (err) {
       setError(
         err.response?.data?.message ||
-        err.message ||
-        "Login failed"
+          err.message ||
+          "Login failed"
       );
     } finally {
       setLoading(false);
@@ -48,9 +67,14 @@ const Login = () => {
 
   return (
     <div className="login-screen login-split">
+
+      {/* LEFT SIDE - LOGIN FORM */}
       <div className="login-form-side">
         <div className="login-card">
-          <span className="brand-mark">हाम्रो उत्पादन</span>
+
+          <span className="brand-mark">
+            हाम्रो उत्पादन
+          </span>
 
           <p className="login-tagline">
             Sign in as a Farmer or Supplier.
@@ -63,8 +87,11 @@ const Login = () => {
           )}
 
           <form onSubmit={handleSubmit}>
+
             <div className="field">
-              <label htmlFor="username">Username</label>
+              <label htmlFor="username">
+                Username
+              </label>
 
               <input
                 id="username"
@@ -81,7 +108,9 @@ const Login = () => {
             </div>
 
             <div className="field">
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password">
+                Password
+              </label>
 
               <input
                 id="password"
@@ -99,21 +128,45 @@ const Login = () => {
             </div>
 
             <button
+              type="submit"
               className="btn btn-primary"
               style={{ width: "100%" }}
               disabled={loading}
             >
               {loading ? "Signing in..." : "Sign in"}
             </button>
+
           </form>
         </div>
       </div>
 
-      <div className="login-image-side" aria-hidden="true">
-        <img src="/veggie-bg.svg" alt="" />
+     
+      <div className="login-image-side">
+
+        <img
+          key={currentImage}
+          src={images[currentImage]}
+          alt="Farmer working in the field"
+          className="login-farmer-image"
+        />
+
+        
+        <div className="image-indicators">
+          {images.map((_, index) => (
+            <span
+              key={index}
+              className={`image-dot ${
+                index === currentImage ? "active" : ""
+              }`}
+            />
+          ))}
+        </div>
+
       </div>
+
     </div>
   );
 };
 
 export default Login;
+
