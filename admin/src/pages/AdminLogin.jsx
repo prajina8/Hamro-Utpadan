@@ -14,6 +14,7 @@ const AdminLogin = () => {
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const [activeImage, setActiveImage] = useState(0);
 
@@ -99,25 +100,37 @@ const AdminLogin = () => {
             </div>
 
             <div className="field">
-              <label htmlFor="password">
-                Password
-              </label>
+  <label htmlFor="password">
+    Password
+  </label>
 
-              <input
-                id="password"
-                type="password"
-                value={form.password}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    password: e.target.value,
-                  })
-                }
-                required
-                autoComplete="current-password"
-              />
-            </div>
+  <div className="password-wrapper">
+    <input
+      id="password"
+      type={showPassword ? "text" : "password"}
+      value={form.password}
+      onChange={(e) =>
+        setForm({
+          ...form,
+          password: e.target.value,
+        })
+      }
+      autoComplete="current-password"
+      required
+    />
 
+    <button
+      type="button"
+      className="password-toggle"
+      onClick={() => setShowPassword(!showPassword)}
+      aria-label={showPassword ? "Hide password" : "Show password"}
+    >
+      {showPassword ? "👁️" : "👁️"}
+    </button>
+  </div>
+</div>
+
+            
             <button
               type="submit"
               className="btn btn-primary"
